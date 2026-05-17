@@ -10,6 +10,16 @@ The architecture is designed to be scalable, cost-efficient, and highly availabl
 
 ---
 
+## Customer Requirements:
+- website Tech stack- HTML, CSS, JS
+- Get your free ebook- Download ebook
+- Received email notification of download
+- store contact details in database for analytics
+- They have global customers- performance
+-500 active users, receive 10-15 downloads
+- all requests should be HTTPS
+- domain name is theepicbooks.com
+
 ## 🏗️ AWS Services Used
 
 - AWS Lambda
