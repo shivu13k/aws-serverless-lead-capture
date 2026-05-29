@@ -1,0 +1,49 @@
+import json
+import boto3
+
+ses = boto3.client('ses', region_name='us-east-1')
+
+RECEIVER = "kaushikshivani13@gmail.com"
+SENDER = "shivani.kaushik1392@gmail.com"
+
+
+def lambda_handler(event, context):
+
+    print("Received event:", event)
+
+    body_text = f"""
+Full Name: {event.get('name')}
+Phone: {event.get('phone')}
+Email: {event.get('email')}
+Message: {event.get('message')}
+"""
+
+    response = ses.send_email(
+        Source=SENDER,
+        Destination={
+            'ToAddresses': [RECEIVER]
+        },
+        Message={
+            'Subject': {
+                'Data': f"Website Query Form: {event.get('name')}",
+                'Charset': 'UTF-8'
+            },
+            'Body': {
+                'Text': {
+                    'Data': body_text,
+                    'Charset': 'UTF-8'
+                }
+            }
+        }
+    )
+
+    return {
+        'statusCode': 200,
+        'headers': {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        },
+        'body': json.dumps({
+            'result': 'Success'
+        })
+    }

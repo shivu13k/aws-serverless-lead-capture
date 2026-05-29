@@ -71,3 +71,45 @@ add domain name and check if all good. Then proceed to next.
 
 ## Step 12: Route53 settings
 In Route53 hosted zone, select your zone, go to records and add A type record by creating record, enable alias and select route traffic to endpoint cloudfront. once it is in sync your domain is connected to the cloudfront distribution and you should be able to access your domain site.
+
+
+# Phase 2: Implementing a Dynamic 'Contact Us' form
+
+## Step 1: Setup Amazon SES service:
+If we see the contact us form on domain website, it asks for name and email and once you click the download ebook, it sends an email notification. for that we need SES setup. Therefore, in SES console, go to identities and create two identities for email address (you need 2 for sender and receiver email). Then verify both email ids.
+
+## Step 2: create IAM policy
+Create a new iam policy Epicreads_SES_policy:
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CloudWatchLogsBasic",
+      "Effect": "Allow",
+      "Action": ["logs:CreateLogGroup"],
+      "Resource": "*"
+    },
+    {
+      "Sid": "CloudWatchLogsStreamEvents",
+      "Effect": "Allow",
+      "Action": ["logs:CreateLogStream","logs:PutLogEvents"],
+      "Resource": "*"
+    },
+    {
+      "Sid": "AllowSesSendEmail",
+      "Effect": "Allow",
+      "Action": ["ses:SendEmail","ses:SendRawEmail"],
+      "Resource": "*"
+    }
+  ]
+}
+
+## Step 3: Create IAM Role
+create role Epicreads_role and assign the above created policy for lambda.
+
+## Step 4: Create lambda func
+Create a new lambda function epicreads_contactus and assign the role you created.
+
+
+
+
